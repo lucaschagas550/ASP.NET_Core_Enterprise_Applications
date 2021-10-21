@@ -65,7 +65,7 @@ namespace NSE.Identidade.API
 
             services.AddControllers();
 
-            //Gerar documentação do swagger
+            //Gerar documentação do swagger 
             services.AddSwaggerGen(c => 
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
