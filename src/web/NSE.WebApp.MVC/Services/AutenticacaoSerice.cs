@@ -15,22 +15,26 @@ namespace NSE.WebApp.MVC.Services
             _httpCliente = httpClient;
         }
 
-        public async Task<string> Login(UsuarioLogin usuarioLogin)
+        public async Task<UsuarioRespostaLogin> Login(UsuarioLogin usuarioLogin)
         {
             //Transforma o conteudo em json
             var loginContent = new StringContent(
                 JsonSerializer.Serialize(usuarioLogin),
-                Encoding.UTF8, 
+                Encoding.UTF8,
                 "application/json");
 
             var response = await _httpCliente.PostAsync("https://localhost:44354/api/identidade/autenticar", loginContent);
 
-            var teste = await response.Content.ReadAsStringAsync();
+            //Text.json conflita o retorno entre maiusculas e minusculas, exemplo: AccessToken do model com  json está accessToken, está config resolve isso
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
 
-            return JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
         }
 
-        public async Task<string> Registro(UsuarioRegistro usuarioRegistro)
+        public async Task<UsuarioRespostaLogin> Registro(UsuarioRegistro usuarioRegistro)
         {
             //Transforma o conteudo em json
             var registroContent = new StringContent(
@@ -40,7 +44,7 @@ namespace NSE.WebApp.MVC.Services
 
             var response = await _httpCliente.PostAsync("https://localhost:44354/api/identidade/nova-conta", registroContent);
 
-            return JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync());
         }
     }
 }
