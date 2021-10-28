@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace NSE.WebApp.MVC.Services
 {
-    public class AutenticacaoSerice : IAutenticacaoService
+    public class AutenticacaoService : Service, IAutenticacaoService
     {
         private readonly HttpClient _httpCliente;
 
-        public AutenticacaoSerice(HttpClient httpClient)
+        public AutenticacaoService(HttpClient httpClient)
         {
             _httpCliente = httpClient;
         }
@@ -31,6 +31,14 @@ namespace NSE.WebApp.MVC.Services
                 PropertyNameCaseInsensitive = true,
             };
 
+            if (!TratarErrosResponse(response))
+            {
+                return new UsuarioRespostaLogin
+                {
+                    ResponseResult = JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
+                };
+            }
+
             return JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
         }
 
@@ -44,7 +52,21 @@ namespace NSE.WebApp.MVC.Services
 
             var response = await _httpCliente.PostAsync("https://localhost:44354/api/identidade/nova-conta", registroContent);
 
-            return JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync());
+            //Text.json conflita o retorno entre maiusculas e minusculas, exemplo: AccessToken do model com  json está accessToken, está config resolve isso
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+
+            if (!TratarErrosResponse(response))
+            {
+                return new UsuarioRespostaLogin
+                {
+                    ResponseResult = JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
+                };
+            }
+
+            return JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
         }
     }
 }
