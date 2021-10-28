@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using NSE.WebApp.MVC.Extensions;
 
 namespace NSE.WebApp.MVC.Configuration
 {
@@ -21,7 +21,8 @@ namespace NSE.WebApp.MVC.Configuration
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/error/500"); //Caminho para os erros não tratados
+                app.UseStatusCodePagesWithRedirects("/erro/{0}"); // Caminho para erros tratados
                 app.UseHsts();
             }
 
@@ -31,6 +32,8 @@ namespace NSE.WebApp.MVC.Configuration
             app.UseRouting();
 
             app.UseIdentityConfiguration(); // deve ficar entre useRouting e UseEndPoint a autenticação
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
