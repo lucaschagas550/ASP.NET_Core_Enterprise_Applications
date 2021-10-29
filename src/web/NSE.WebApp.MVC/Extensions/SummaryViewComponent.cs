@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace NSE.WebApp.MVC.Extensions
 {
-    public class SummaryViewComponet : ViewComponent
+    public class SummaryViewComponent : ViewComponent
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {

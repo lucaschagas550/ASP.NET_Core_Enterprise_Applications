@@ -15,16 +15,20 @@ namespace NSE.WebApp.MVC.Configuration
 
         public static void UseMvcConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/error/500"); //Caminho para os erros não tratados
-                app.UseStatusCodePagesWithRedirects("/erro/{0}"); // Caminho para erros tratados
-                app.UseHsts();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/error/500"); //Caminho para os erros não tratados
+            //    app.UseStatusCodePagesWithRedirects("/erro/{0}"); // Caminho para erros tratados
+            //    app.UseHsts();
+            //}
+
+            app.UseExceptionHandler("/error/500"); //Caminho para os erros não tratados
+            app.UseStatusCodePagesWithRedirects("/erro/{0}"); // Caminho para erros tratados
+            app.UseHsts();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
