@@ -73,6 +73,6 @@ body {
 input,
 select,
 file,
-textarea{
-    max-width 400px;
+textarea {
+    max-width: 400px;
 }
