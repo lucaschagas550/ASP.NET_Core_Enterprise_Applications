@@ -17,6 +17,7 @@ namespace NSE.Identidade.API
 
         //public IConfiguration Configuration { get; }
 
+        //TESTE COMMIT
         public IConfiguration Configuration { get; }
 
         public Startup(IHostEnvironment hostEnvironment)
