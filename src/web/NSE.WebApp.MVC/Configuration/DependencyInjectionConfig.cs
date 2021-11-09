@@ -12,6 +12,8 @@ namespace NSE.WebApp.MVC.Configuration
         {
             services.AddHttpClient<IAutenticacaoService, AutenticacaoService>();
 
+            services.AddHttpClient<ICatalogoService, CatalogoService>();
+
             //Singleton existe um contexto para apresentação toda
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
