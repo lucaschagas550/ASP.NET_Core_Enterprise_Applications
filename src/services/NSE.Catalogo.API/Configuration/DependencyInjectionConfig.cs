@@ -10,7 +10,7 @@ namespace NSE.Catalogo.API.Configuration
         public static void RegisterService(this IServiceCollection services)
         {
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
-            services.AddScoped<CatalogoContext>();
+            services.AddScoped<CatalogoContext>(); // conexao com banco
         }
     }
 }
