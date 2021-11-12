@@ -27,7 +27,7 @@ namespace NSE.WebApp.MVC.Configuration
                     .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                 .AddPolicyHandler(PollyExtensions.EsperarTentar())
                 .AddTransientHttpErrorPolicy(
-                    p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+                    p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30))); // se tentou chamar uma api 10x e respondeu com erro consecutivamente  não bate mais, ignora, cortando a comunicação, após 5 tentativas
 
             //Singleton existe um contexto para apresentação toda
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
