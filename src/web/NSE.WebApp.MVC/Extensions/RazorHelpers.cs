@@ -21,6 +21,7 @@ namespace NSE.WebApp.MVC.Extensions
 
         public static string FormatoMoeda(this RazorPage page, decimal valor)
         {
+            //Formatação de valor conforme a sua cultura
             return valor > 0 ? string.Format(Thread.CurrentThread.CurrentCulture, "{0:C}", valor) : "Gratuito";
         }
 
