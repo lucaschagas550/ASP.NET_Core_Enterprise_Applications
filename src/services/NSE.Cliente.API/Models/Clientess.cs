@@ -3,7 +3,8 @@ using NSE.Core.DomainObjects;
 
 namespace NSE.Cliente.API.Models
 {
-    public class Clientess : Entity, IAggregateRoot
+    //Por ser uma classe mãe de outras classes utiliza-se o IAggregateRoot
+    public class Clientess : Entity, IAggregateRoot 
     {
         public string Nome { get; private set; }
         public Email Email { get; private set; }
@@ -16,7 +17,7 @@ namespace NSE.Cliente.API.Models
 
         public Clientess(Guid id, string nome, string email, string cpf)
         {
-            Id = id;
+            Id = id; //Id da minha entidade
             Nome = nome;
             Email = new Email(email);
             Cpf = new Cpf(cpf);
