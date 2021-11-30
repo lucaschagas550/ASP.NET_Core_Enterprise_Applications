@@ -9,6 +9,7 @@ using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
 using System.Net.Http;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 
 namespace NSE.WebApp.MVC.Configuration
 {
@@ -17,6 +18,9 @@ namespace NSE.WebApp.MVC.Configuration
 
         public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
+            //Valida quando tiver um atributo do tipo CPF
+            services.AddSingleton<IValidationAttributeAdapterProvider, CpfValidationAttributeAdapterProvider>();
+
             //Transient => é chamado uma instancia cada vez
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 

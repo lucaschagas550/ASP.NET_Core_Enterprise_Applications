@@ -29,6 +29,7 @@ namespace NSE.Cliente.API.Application.Commands
 
         public class RegistrarClienteValidation : AbstractValidator<RegistrarClienteCommand>
         {
+            //Validação
             public RegistrarClienteValidation()
             {
                 RuleFor(c => c.Id)

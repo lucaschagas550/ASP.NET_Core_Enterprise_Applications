@@ -4,6 +4,8 @@ using MediatR;
 
 namespace NSE.Core.Messages
 {
+    //CommandHandler não é obrigatorio retornar um objeto
+    //mas neste caso ele retornara um ValidationResult
     public abstract class Command : Message, IRequest<ValidationResult>
     {
         public DateTime Timestamp { get; private set; }

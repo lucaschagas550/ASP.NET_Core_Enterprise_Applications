@@ -34,6 +34,7 @@ namespace NSE.Cliente.API.Application.Commands
 
             _clienteRepository.Adicionar(cliente);
 
+            //Depois de criado eu quero lançar um evento que o cliente foi criado, posso enviar um etc. 
             cliente.AdicionarEvento(new ClienteRegistradoEvent(message.Id, message.Nome, message.Email, message.Cpf));
 
             return await PersistirDados(_clienteRepository.UnitOfWork);
