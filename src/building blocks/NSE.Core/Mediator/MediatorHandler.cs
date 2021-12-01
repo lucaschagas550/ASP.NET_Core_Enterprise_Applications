@@ -21,6 +21,7 @@ namespace NSE.Core.Mediator
 
         public async Task PublicarEvento<T>(T evento) where T : Event
         {
+            // chama o ClienteEventHandler baseado no evente que recebe
             await _mediator.Publish(evento);
         }
     }
