@@ -41,7 +41,7 @@ namespace NSE.WebApp.MVC.Controllers
             //Realizar login no APP
             await RealizarLogin(resposta);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Catalogo");
         }
 
 
