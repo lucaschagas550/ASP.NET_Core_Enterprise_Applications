@@ -10,7 +10,7 @@ namespace NSE.MessageBus
         bool IsConnected { get; }
         IAdvancedBus AdvancedBus { get; }
 
-        void Publish<T>(T message) where T : IntegrationEvent;
+        void Publish<T>(T message) where T : IntegrationEvent; // where T (GENERICO) tem que ser do tipo da classe IntegrationEvent
 
         Task PublishAsync<T>(T message) where T : IntegrationEvent;
 

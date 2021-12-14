@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\building blocks\NSE.Core\NSE.Core.csproj" />
+    <ProjectReference Include="..\NSE.Core\NSE.Core.csproj" />
   </ItemGroup>
 
 </Project>
