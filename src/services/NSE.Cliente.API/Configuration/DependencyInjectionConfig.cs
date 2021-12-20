@@ -26,7 +26,7 @@ namespace NSE.Cliente.API.Configuration
             services.AddScoped<ClientesContext>();
 
             //AddHostedService para background services, AddHostedService eh um singleton
-            services.AddHostedService<RegistroClienteIntegrationHandler>();
+            //services.AddHostedService<RegistroClienteIntegrationHandler>();
         }
     }
 }
