@@ -21,16 +21,27 @@ namespace NSE.Cliente.API.Services
             _bus = bus;
         }
 
-        //quando mensagem eh enviado
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {            
-            _bus.RespondAsync<UsuarioRegistradoIntegrationEvent, ResponseMessage>(async request 
+        private void SetResponder()
+        {
+            _bus.RespondAsync<UsuarioRegistradoIntegrationEvent, ResponseMessage>(async request
                 => await RegistrarCliente(request));// envia o request que eh o UsuarioRegistradoIntegrationEvent para chamar o command handler
 
+            _bus.AdvancedBus.Connected += OnConnect;
+        }
+
+        //É executado assim que aplicação é iniciada
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            SetResponder();
             return Task.CompletedTask;
         }
 
-        //chamar o command handler
+        private void OnConnect(object s, EventArgs e)
+        {
+            SetResponder();
+        }
+
+        //chamar o ClientCommandHandler
         private async Task<ResponseMessage> RegistrarCliente(UsuarioRegistradoIntegrationEvent message)
         {
             var clientCommand = new RegistrarClienteCommand(message.Id, message.Nome, message.Email, message.Cpf);

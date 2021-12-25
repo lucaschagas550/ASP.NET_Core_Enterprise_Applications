@@ -49,6 +49,9 @@ namespace NSE.Identidade.API.Controllers
 
             if (result.Succeeded)
             {
+                //Adicionando Claims no momento do cadastro na tabela AspNetUserClaims
+                await _userManager.AddClaimAsync(user, new Claim("Catalogo", "Ler"));
+
                 var clienteResult = await RegistrarCliente(usuarioRegistro);
 
                 if (!clienteResult.ValidationResult.IsValid)
@@ -172,6 +175,7 @@ namespace NSE.Identidade.API.Controllers
 
             try
             {
+                //envia para RegistroClientIntegration
                 return await _bus.RequestAsync<UsuarioRegistradoIntegrationEvent, ResponseMessage>(usuarioRegistrado);
             }
             catch (Exception ex)
