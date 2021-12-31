@@ -10,6 +10,7 @@ using Polly.Extensions.Http;
 using Polly.Retry;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using NSE.WebAPI.Core.Usuario;
 
 namespace NSE.WebApp.MVC.Configuration
 {
@@ -37,7 +38,7 @@ namespace NSE.WebApp.MVC.Configuration
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //Scoped os dados ficam limitados a cada request 
-            services.AddScoped<IUser, AspNetUser>();
+            services.AddScoped<IAspNetUser, AspNetUser>();
 
             #region Refit
 
