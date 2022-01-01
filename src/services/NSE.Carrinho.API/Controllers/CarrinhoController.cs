@@ -89,7 +89,7 @@ namespace NSE.Carrinho.API.Controllers
         private async Task<CarrinhoCliente> ObterCarrinhoCliente()
         {
             return await _context.CarrinhoCliente
-                .Include(c => c.Itens)
+                .Include(c => c.Itens) //Include serve como um join entre tabelas
                 .FirstOrDefaultAsync(c => c.ClienteId == _user.ObterUserId());
         }
         private void ManipularNovoCarrinho(CarrinhoItem item)
