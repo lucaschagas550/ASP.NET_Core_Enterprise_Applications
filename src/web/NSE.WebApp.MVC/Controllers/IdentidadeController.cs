@@ -29,7 +29,7 @@ namespace NSE.WebApp.MVC.Controllers
 
         [HttpPost]
         [Route("nova-conta")]
-        public async Task<ActionResult> Registro(UsuarioRegistro usuarioRegistro)
+        public async Task<IActionResult> Registro(UsuarioRegistro usuarioRegistro)
         {
             if (!ModelState.IsValid) return View(usuarioRegistro);
 
@@ -69,7 +69,7 @@ namespace NSE.WebApp.MVC.Controllers
             //Realizar login no APP
             await RealizarLogin(resposta);
 
-            if(string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Home");
+            if(string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Catalogo");
 
             return LocalRedirect(returnUrl);
         }
@@ -79,7 +79,7 @@ namespace NSE.WebApp.MVC.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Catalogo");
         }
 
         private async Task RealizarLogin(UsuarioRespostaLogin resposta)

@@ -22,24 +22,35 @@ namespace NSE.WebApp.MVC.Configuration
             //Valida quando tiver um atributo do tipo CPF
             services.AddSingleton<IValidationAttributeAdapterProvider, CpfValidationAttributeAdapterProvider>();
 
-            //Transient => é chamado uma instancia cada vez
-            services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
-
-            services.AddHttpClient<IAutenticacaoService, AutenticacaoService>();
-
-            //Handler manipula os request, interceptando todos os request que vier de CatalogoService
-            services.AddHttpClient<ICatalogoService, CatalogoService>()
-                    .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddPolicyHandler(PollyExtensions.EsperarTentar())
-                .AddTransientHttpErrorPolicy(
-                    p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30))); // se tentou chamar uma api 5x e respondeu com erro consecutivamente  não bate mais, ignora, cortando a comunicação, após 5 tentativas
-
             //Singleton existe um contexto para apresentação toda
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //Scoped os dados ficam limitados a cada request 
             services.AddScoped<IAspNetUser, AspNetUser>();
 
+            #region HttpServices
+            //Transient => é chamado uma instancia cada vez
+            services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
+
+            services.AddHttpClient<IAutenticacaoService, AutenticacaoService>()
+                    .AddPolicyHandler(PollyExtensions.EsperarTentar())
+                    .AddTransientHttpErrorPolicy(
+                    p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+            //Handler manipula os request, interceptando todos os request que vier de CatalogoService
+            services.AddHttpClient<ICatalogoService, CatalogoService>()
+                    .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                    .AddPolicyHandler(PollyExtensions.EsperarTentar())
+                    .AddTransientHttpErrorPolicy(
+                    p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30))); // se tentou chamar uma api 5x e respondeu com erro consecutivamente  não bate mais, ignora, cortando a comunicação, após 5 tentativas
+
+            services.AddHttpClient<ICarrinhoService, CarrinhoService>()
+                    .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                    .AddPolicyHandler(PollyExtensions.EsperarTentar())
+                    .AddTransientHttpErrorPolicy(
+                     p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+            #endregion
             #region Refit
 
             ////Exemplo de uso com Refit
@@ -53,6 +64,7 @@ namespace NSE.WebApp.MVC.Configuration
             #endregion
         }
 
+        #region PollyExtension
         public class PollyExtensions
         {
             public static AsyncRetryPolicy<HttpResponseMessage> EsperarTentar()
@@ -74,5 +86,6 @@ namespace NSE.WebApp.MVC.Configuration
                 return retry;
             }
         }
+        #endregion
     }
 }

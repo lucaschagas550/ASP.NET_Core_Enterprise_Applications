@@ -25,13 +25,13 @@ namespace NSE.Carrinho.API.Controllers
             _context = context;
         }
 
-        [HttpGet("carrinho")]
+        [HttpGet("")]
         public async Task<CarrinhoCliente> ObterCarrinho()
         {
             return await ObterCarrinhoCliente() ?? new CarrinhoCliente();
         }
 
-        [HttpPost("carrinho")]
+        [HttpPost("")]
         public async Task<IActionResult> AdicionarItemCarrinho(CarrinhoItem item)
         {
             var carrinho = await ObterCarrinhoCliente();
@@ -47,7 +47,7 @@ namespace NSE.Carrinho.API.Controllers
             return CustomResponse();
         }
 
-        [HttpPut("carrinho/{produtoId}")]
+        [HttpPut("{produtoId}")]
         public async Task<IActionResult> AtualizarItemCarrinho(Guid produtoId, CarrinhoItem item)
         {
             var carrinho = await ObterCarrinhoCliente();
@@ -66,7 +66,7 @@ namespace NSE.Carrinho.API.Controllers
             return CustomResponse();
         }
 
-        [HttpDelete("carrinho/{produtoId}")]
+        [HttpDelete("{produtoId}")]
         public async Task<IActionResult> RemoverItemCarrinho(Guid produtoId)
         {
             var carrinho = await ObterCarrinhoCliente();

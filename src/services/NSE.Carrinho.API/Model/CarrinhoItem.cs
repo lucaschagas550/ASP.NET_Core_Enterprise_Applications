@@ -20,7 +20,7 @@ namespace NSE.Carrinho.API.Model
 
         public Guid CarrinhoId { get; set; }
 
-        [JsonIgnore]
+        [JsonIgnore] // Para ignorar esse item no momento de serializar, por causa do System.Text.Json.Serialization
         public CarrinhoCliente CarrinhoCliente { get; set; }
 
         internal void AssociarCarrinho(Guid carrinhoId)
