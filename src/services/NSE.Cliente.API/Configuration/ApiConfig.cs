@@ -37,6 +37,7 @@ namespace NSE.Cliente.API.Configuration
                 app.UseDeveloperExceptionPage();
             }
 
+            //Redireciona http para sempre usar https
             app.UseHttpsRedirection();
 
             app.UseRouting();
