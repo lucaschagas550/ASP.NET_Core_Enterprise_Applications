@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using NSE.Bff.Compras.Extensions;
+using NSE.Bff.Compras.Services;
+using NSE.WebAPI.Core.Extensions;
 using NSE.WebAPI.Core.Usuario;
+using Polly;
 
 namespace NSE.Bff.Compras.Configuration.Configuration
 {
@@ -10,6 +15,27 @@ namespace NSE.Bff.Compras.Configuration.Configuration
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAspNetUser, AspNetUser>();
+
+            //Passar o token sempre no header
+            services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
+
+            services.AddHttpClient<ICatalogoService, CatalogoService>()
+                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>() // token sendo enviado aqui
+                .AddPolicyHandler(PollyExtensions.EsperarTentar())
+                .AddTransientHttpErrorPolicy(
+                    p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+            services.AddHttpClient<ICarrinhoService, CarrinhoService>()
+                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddPolicyHandler(PollyExtensions.EsperarTentar())
+                .AddTransientHttpErrorPolicy(
+                    p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+            services.AddHttpClient<IPedidoService, PedidoService>()
+                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddPolicyHandler(PollyExtensions.EsperarTentar())
+                .AddTransientHttpErrorPolicy(
+                    p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
         }
     }
 }
