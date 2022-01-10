@@ -44,7 +44,7 @@ namespace NSE.WebApp.MVC.Configuration
                     .AddTransientHttpErrorPolicy(
                     p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30))); // se tentou chamar uma api 5x e respondeu com erro consecutivamente  não bate mais, ignora, cortando a comunicação, após 5 tentativas
 
-            services.AddHttpClient<ICarrinhoService, CarrinhoService>()
+            services.AddHttpClient<IComprasBffService, ComprasBffService>()
                     .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                     .AddPolicyHandler(PollyExtensions.EsperarTentar())
                     .AddTransientHttpErrorPolicy(
