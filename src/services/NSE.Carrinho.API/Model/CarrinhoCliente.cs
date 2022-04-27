@@ -15,6 +15,9 @@ namespace NSE.Carrinho.API.Model
         public decimal ValorTotal { get; set; }
         public List<CarrinhoItem> Itens { get; set; } = new List<CarrinhoItem>();
         public ValidationResult ValidationResult { get; set; }
+        public bool VoucherUtilizado { get; set; }
+        public decimal Desconto { get; set; }
+        public Voucher Voucher { get; set; }
 
         public CarrinhoCliente(Guid clienteId)
         {
